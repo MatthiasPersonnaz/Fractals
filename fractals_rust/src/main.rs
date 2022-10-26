@@ -1,7 +1,6 @@
 use num_complex::Complex;
-//use array2d::Array2D;
 use image::{RgbImage, Rgb};
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 fn main () {
     let c = Complex::new(-0.8, 0.156);
@@ -9,15 +8,14 @@ fn main () {
     let x_bounds: (f64, f64) = (-1.5, 1.5);
     let y_bounds: (f64, f64) = (-1.0, 1.0);
 
-    let gridsize: u32 = 2048;
-    let mut img = RgbImage::new(gridsize, gridsize);
-
-    let max_iter: u8 = 80; // max number of iterations
+    let gridsize: u32 = 4000;
     
-    //let mut step_array = Array2D::filled_with(0, gridsize, gridsize);
+    let mut img = RgbImage::new(gridsize, gridsize);
+    let brightening_factor: f64 = 1.5;
+
+    let max_iter: u8 = 100; // max number of iterations
+    
     let start = Instant::now();
-
-
     for i in 0..gridsize-1 {
         for j in 0..gridsize-1 {
             let mut z = map_grid2comp(&x_bounds, &y_bounds, i as f64, j as f64, gridsize as f64);
@@ -26,14 +24,13 @@ fn main () {
                 z = z*z + c;
                 iter += 1;
             }
-            //step_array[(i, j)] = iter;
-            let brightening_factor = 1.5;
-            img.put_pixel(i, j, Rgb([iter*brightening_factor as u8, iter*brightening_factor as u8, iter*brightening_factor as u8]));
+            let grey: u8 = iter*brightening_factor as u8;
+            img.put_pixel(i, j, Rgb([grey, grey, grey]));
         }
     }
-    let duration = start.elapsed();
-    println!("durée d'exécution du calcul: {:?} pour une grille {}x{}", duration, gridsize, gridsize);
-    //println!("{:?}", step_array);
+    let duration: f64 = start.elapsed().as_secs_f64();
+    println!("durée d'exécution du calcul: {duration:.3}s pour une grille {gridsize}x{gridsize}");
+
     img.save("julia.jpg").unwrap();
     
 }
