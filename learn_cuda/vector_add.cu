@@ -18,7 +18,7 @@ __global__ void vector_add(float *out, float *a, float *b, int n) {
 
 int main(){
     float *a, *b, *out;
-    float *d_a, *d_b, *out;
+    float *d_a, *d_b, *d_out;
 
     // Allocate memory
     a   = (float*)malloc(sizeof(float) * N);
@@ -28,7 +28,7 @@ int main(){
     // Allocate memory on the GPU
     cudaMalloc((void**)&d_a, sizeof(float) * N);
     cudaMalloc((void**)&d_b, sizeof(float) * N);
-    cudaMalloc((void**)&out, sizeof(float) * N);
+    cudaMalloc((void**)&d_out, sizeof(float) * N);
 
     // Initialize array
     for(int i = 0; i < N; i++){
@@ -42,7 +42,7 @@ int main(){
 
     // Main function
     // vector_add(out, a, b, N);
-    vector_add<<<1, 1>>>(out, d_a, d_b, N);
+    vector_add<<<1, 1>>>(d_out, d_a, d_b, N);
 
     // Verification
     for(int i = 0; i < N; i++){
