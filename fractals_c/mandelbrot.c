@@ -1,3 +1,7 @@
+/* TO COMPILE
+ * gcc -lm mandelbrot.c -o mandelbrot
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
