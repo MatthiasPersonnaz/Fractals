@@ -1,3 +1,6 @@
+// Compile with
+// nvcc mandelbrot.cu -o mandelbrot -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\Hostx64\x64" -O2
+
 //#include <stdlib.h>
 #include <stdio.h>
 //#include <math.h>
